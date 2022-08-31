@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+  <script src="https://cdn.bootcss.com/Swiper/3.4.2/js/swiper.jquery.min.js"></script>
+</head>
+<style>
+  * {
+    margin: 0;
+    padding: 0
+  }
+
+  li {
+    list-style: none
+  }
+
+  .box {
+    margin: 50px auto;
+    width: 800px
+  }
+
+  .swiperTab {
+    display: flex;
+    width: 100%;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center
+  }
+
+  .swiperTab li {
+    display: flex;
+    height: 48px;
+    border-left: 1px solid #dfdfdf;
+    background-color: #ddf8ff;
+    cursor: pointer;
+    flex: 1;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center
+  }
+
+  .swiperTab li:first-child {
+    border-left: 1px solid transparent
+  }
+
+  .swiperTab li.active {
+    background-color: #f60;
+    color: #fff
+  }
+
+  .swiperTab li:nth-child(1).active {
+    background-color: #9acd32
+  }
+
+  .swiperTab li:nth-child(2).active {
+    background-color: green
+  }
+
+  .swiperTab li:nth-child(3).active {
+    background-color: pink
+  }
+
+  .swiper-slide {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    padding: 20px
+  }
+
+  .swiper-slide:nth-child(1) {
+    height: 200px;
+    background-color: #9acd32
+  }
+
+  .swiper-slide:nth-child(2) {
+    height: 300px;
+    background-color: green
+  }
+
+  .swiper-slide:nth-child(3) {
+    height: 100px;
+    background-color: pink
+  }
+
+</style>
+
+<body>
+  <div class="box">
+    <ul class="swiperTab">
+      <li> <span>Div+CSS</span> </li>
+      <li> <span>JavaScript+JQuery</span> </li>
+      <li> <span>AngularJS+Vue+NodeJs</span> </li>
+    </ul>
+    <div class="swiper-container">
+      <div class="swiper-wrapper">
+        <div class="swiper-slide">千寻Div+CSS</div>
+        <div class="swiper-slide">阿飞JavaScript+JQuery</div>
+        <div class="swiper-slide">无虑AngularJS+Vue+NodeJs</div>
+      </div>
+    </div>
+  </div >
+  <script>
+    /*  swiper 选项卡函数 参数说明
+   *       obj  必选，导航列表
+   *       swiperObj: 必选，HTML元素或者string类型，Swiper容器的css选择器
+   *       className: 必选，当前样式的类名
+   *       effect：可选，切换效果，默认为"slide"，可设置为"fade，cube，coverflow，flip"。
+   *       其他参数参阅官网 http://www.swiper.com.cn
+   * */
+   function tabs(obj,swiperObj,className) {
+       var tabSwiper = new Swiper(swiperObj, {
+           effect : 'flip',//切换效果
+           speed : 500, //滑动速度，单位ms
+           autoHeight: true, // 高度随内容变化
+           onSlideChangeStart : function() {
+               $(obj+"."+className).removeClass(className); /*有当前类名的删除类名,给下一个添加当前类名*/
+               $(obj).eq(tabSwiper.activeIndex).addClass(className);/*activeIndex是过渡后的slide索引*/
+           }
+       });
+       // 模拟点击事件，如果是移入事件，将mousedown 改为 mouseenter
+       $(obj).on('touchstart mousedown', function(e) {
+           e.preventDefault();/*清除默认事件*/
+           $(obj+"."+className).removeClass(className);
+           $(this).addClass(className); /*点击当前导航 改变当前样式*/
+           tabSwiper.slideTo($(this).index());/*滑动到对应的滑块*/
+       });
+       $(obj).click(function(e) {
+           e.preventDefault();/*清除默认点击事件*/
+       });
+   } /*swiper选项卡切换*/
+       $(function () {
+         //swiperTab 是你导航的className,active是你当前状态的className
+           $('.swiperTab > li').eq(0).addClass('active');
+           tabs('.swiperTab > li','.swiper-container','active');
+       });
+    </script>
+</body> 
+ 
+</html>
